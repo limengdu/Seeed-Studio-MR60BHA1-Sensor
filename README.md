@@ -1,15 +1,14 @@
-# Seeed_24GHz_mmWave_Radar_Sensor
-Seeed_24GHz_mmWave_Radar_Sensor
+# Seeed 60GHz mmWave Radar Sensor - Breathing and Heartbeat Module
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/60GHzradar/1.jpeg"/></div>
+<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/60GHzradar/MR60BHA1.jpeg"/></div>
 
-[Seeed_24GHz_mmWave_Radar_Sensor](https://www.seeedstudio.com/24GHz-mmWave-Radar-Sensor-Fall-Detection-Module-p-5268.html)
+[Seeed 60GHz mmWave Radar Sensor - Breathing and Heartbeat Module](https://www.seeedstudio.com/60GHz-mmWave-Radar-Sensor-Breathing-and-Heartbeat-Module-p-5305.html?queryID=7812981435ed0d64d3021f0e03eaa2d8&objectID=5305&indexName=bazaar_retailer_products)
 
-The Seeed 24GHz mmWave Radar Sensor is a self-contained, privacy-protectively, safety mmWave module operating at 24GHz. With the enhanced Infineon Doppler radar and the standard algorithm, the module is an ideal solution for individual applications like elderly health care, smart home, and danger alarm.
+The MR60BHA1 60GHz radar module applies FMCW detected theory to implement simultaneous personal breathing rate and heart rate detention in high accuracy, providing a fully total private and secure environment, independently from other noisy influences. It is a standard biotic radar system in consumer electronics, healthcare as well as industrial applications.
 
 The unit supports secondary developments and the improvable factors like small size, digital output, inside algorithm, allow it can be applied in a variety of scenarios applications by universal UART communication interface through a development board like Wio Terminal or the XIAO series.
 
-For more information please visit [wiki](https://wiki.seeedstudio.com/Radar_MR24BSD1/).
+For more information please visit [wiki](https://wiki.seeedstudio.com/Radar_MR60BHA1/).
 
 This demo is licensed [under The MIT License](http://opensource.org/licenses/mit-license.php). Check LINCESE for more information.
 
