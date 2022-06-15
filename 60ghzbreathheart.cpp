@@ -76,19 +76,14 @@ void BreathHeart_60GHz::Situation_judgment(byte inf[]){
               Serial.println("Radar detects None.");
               Serial.println("----------------------------");
               break;
-            case CA_CLOSE:
+            case STATIONARY:
               ShowData(inf);
-              Serial.println("Radar detects somebody close.");
+              Serial.println("Radar detects somebody stationary.");
               Serial.println("----------------------------");
               break;
-            case CA_AWAY:
+            case MOVEMENT:
               ShowData(inf);
-              Serial.println("Radar detects somebody away.");
-              Serial.println("----------------------------");
-              break;
-            case DISORDER:
-              ShowData(inf);
-              Serial.println("Radar detects someone is in disorderly motion.");
+              Serial.println("Radar detects somebody in motion.");
               Serial.println("----------------------------");
               break;
           }
@@ -99,6 +94,29 @@ void BreathHeart_60GHz::Situation_judgment(byte inf[]){
           Serial.println(inf[6]);
           Serial.println("----------------------------");
           break;
+        case DISTANCE:
+          ShowData(inf);
+          Serial.print("The distance of the radar from the monitored person is: ");
+          Serial.print(inf[6]);
+          Serial.print(" ");
+          Serial.print(inf[7]);
+          Serial.println(" cm");
+          Serial.println("----------------------------");
+          break;
+        case ANGLE:
+          ShowData(inf);
+          Serial.print("The human orientation from the monitored person is, Pitch angle: ");
+          Serial.print(inf[6]);
+          Serial.print(" ");
+          Serial.print(inf[7]);
+          Serial.println(" °");
+          Serial.print(" Horizontal angle: ");
+          Serial.print(inf[8]);
+          Serial.print(" ");
+          Serial.print(inf[9]);
+          Serial.println(" °");
+          Serial.println("----------------------------");
+          break;
       }
       break;
   }
@@ -107,7 +125,129 @@ void BreathHeart_60GHz::Situation_judgment(byte inf[]){
 //Respiratory sleep data frame decoding
 void BreathHeart_60GHz::Breath_Heart(byte inf[]){
   switch(inf[2]){
-    case HEART_RATE_RADAR:
+    case BREATH_RATE_RADAR:
+      switch(inf[3]){
+        case BREATH_DATA:
+          switch(inf[6]){
+            case BREATH_NORMAL:
+              ShowData(inf);
+              Serial.println("Radar detects that the current breath rate is normal.");
+              Serial.println("----------------------------");
+              break;
+            case BREATH_RAPID:
+              ShowData(inf);
+              Serial.println("Radar detects current breath rate is too fast");
+              Serial.println("----------------------------");
+              break;
+            case BREATH_SLOW:
+              ShowData(inf);
+              Serial.println("Radar detects current breath rate is too slow");
+              Serial.println("----------------------------");
+              break;
+            case BREATH_DETECTING:
+              ShowData(inf);
+              Serial.println("Current breath rate status is detecting");
+              Serial.println("----------------------------");
+              break;
+          }
+          break;
+        case BREATH_VAL:
+          ShowData(inf);
+          Serial.print("Radar monitored the current breath rate value is ");
+          Serial.println(inf[6]);
+          Serial.println("----------------------------");
+          break;
+        case BREATH_INTENSITY:
+          ShowData(inf);
+          Serial.print("Radar monitored the current breath intensity value is ");
+          Serial.println(inf[6]);
+          Serial.println("----------------------------");
+          break;
+        case BREATH_CONFIDENCE:
+          ShowData(inf);
+          Serial.print("Radar monitored the current breath confidence value is ");
+          Serial.println(inf[6]);
+          Serial.println("----------------------------");
+          break;
+        case BREATH_WAVE:
+          ShowData(inf);
+          Serial.print("The respiratory waveform has not yet been developed.");
+          Serial.println("----------------------------");
+          break;
+      }
+      break;
+    case SLEEP_INF:
+      switch(inf[3]){
+        case INOUT_BED:
+          switch(inf[6]){
+            case OUT_BED:
+              ShowData(inf);
+              Serial.println("Radar detects someone currently leaving the bed.");
+              Serial.println("----------------------------");
+              break;
+            case IN_BED:
+              ShowData(inf);
+              Serial.println("Radar detects that someone is currently in bed.");
+              Serial.println("----------------------------");
+              break;
+          }
+          break;
+        case SLEEP_STATE:
+          switch(inf[6]){
+            case AWAKE:
+              ShowData(inf);
+              Serial.println("The radar detects that the monitoring people is awake.");
+              Serial.println("----------------------------");
+              break;
+            case LIGHT_SLEEP:
+              ShowData(inf);
+              Serial.println("The radar detects that the monitoring people is in light sleeping.");
+              Serial.println("----------------------------");
+              break;
+            case DEEP_SLEEP:
+              ShowData(inf);
+              Serial.println("The radar detects that the monitoring people is in deep sleeping.");
+              Serial.println("----------------------------");
+              break;
+            case SLEEP_NONE:
+              ShowData(inf);
+              Serial.println("The radar detects that the monitoring people nothing.");
+              Serial.println("----------------------------");
+              break;
+          }
+        case AWAKE_TIME:
+          ShowData(inf);
+          Serial.print("Radar monitored the awake sleep time is: ");
+          Serial.print(inf[6]);
+          Serial.print(" ");
+          Serial.println(inf[7]);
+          Serial.println("----------------------------");
+          break;
+        case LIGHTSLEEP_TIME:
+          ShowData(inf);
+          Serial.print("Radar monitored the light sleep time is: ");
+          Serial.print(inf[6]);
+          Serial.print(" ");
+          Serial.println(inf[7]);
+          Serial.println("----------------------------");
+          break;
+        case DEEPSLEEP_TIME:
+          ShowData(inf);
+          Serial.print("Radar monitored the deep sleep time is: ");
+          Serial.print(inf[6]);
+          Serial.print(" ");
+          Serial.println(inf[7]);
+          Serial.println("----------------------------");
+          break;
+        case SLEEP_SCORE:
+          ShowData(inf);
+          Serial.print("Radar judgment sleep score is: ");
+          Serial.println(inf[6]);
+          Serial.println("----------------------------");
+          break;
+      }
+      break;
+    case HEART_INF:
       switch(inf[3]){
         case RATE_DATA:
           switch(inf[6]){
@@ -126,6 +266,11 @@ void BreathHeart_60GHz::Breath_Heart(byte inf[]){
               Serial.println("Radar detects current heart rate is too slow");
               Serial.println("----------------------------");
               break;
+            case RATE_DETECTING:
+              ShowData(inf);
+              Serial.println("Current heart rate status is detecting");
+              Serial.println("----------------------------");
+              break;
           }
           break;
         case HEART_RATE:
@@ -134,37 +279,28 @@ void BreathHeart_60GHz::Breath_Heart(byte inf[]){
           Serial.println(inf[6]);
           Serial.println("----------------------------");
           break;
-        case HEART_RATE_WAVE:
+        case RATE_INTENSITY:
           ShowData(inf);
-          break;
-        case BREATH_DATA:
-          switch(inf[6]){
-            case BREATH_NORMAL:
-              ShowData(inf);
-              Serial.println("Radar detects that the current breathing rate is normal.");
-              Serial.println("----------------------------");
-              break;
-            case BREATH_RAPID:
-              ShowData(inf);
-              Serial.println("Radar detects current breathing rate is too fast");
-              Serial.println("----------------------------");
-              break;
-            case BREATH_SLOW:
-              ShowData(inf);
-              Serial.println("Radar detects current breathing rate is too slow");
-              Serial.println("----------------------------");
-              break;
-          }
-          break;
-        case BREATH_VAL:
-          ShowData(inf);
-          Serial.print("Radar monitored the current breathing rate value is ");
+          Serial.print("Radar monitored the current heart rate intensity value is ");
           Serial.println(inf[6]);
           Serial.println("----------------------------");
           break;
-        case BREATH_WAVE:
+        case RATE_CONFIDENCE:
           ShowData(inf);
+          Serial.print("Radar monitored the current heart rate confidence value is ");
+          Serial.println(inf[6]);
+          Serial.println("----------------------------");
           break;
+        case HEART_RATE_WAVE:
+          ShowData(inf);
+          Serial.print("The heart rate waveform has not yet been developed.");
+          Serial.println("----------------------------");
+          break;
+        break;
+      }
+      break;
+    case LOCA_DET_ANOMAL:
+      switch(inf[3]){
         case LOCA_DET_ANOMAL:
           switch(inf[6]){
             case OUT_OF_RANGE:
@@ -178,27 +314,6 @@ void BreathHeart_60GHz::Breath_Heart(byte inf[]){
               Serial.println("----------------------------");
               break;
           }
-          break;
-        case DISTANCE:
-          // Distance(inf);
-          // break;
-          ShowData(inf);
-          Serial.print("The current standstill distance detected by the radar is ");
-          Serial.print(inf[6]);
-          Serial.print(" ");
-          Serial.print(inf[7]);
-          Serial.println(" CM");
-          Serial.println("----------------------------");
-          break;
-        case ANGLE:
-          ShowData(inf);
-          Serial.print("The current standstill angle detected by the radar is ");
-          Serial.print(inf[6]);
-          Serial.print(" ");
-          Serial.print(inf[7]);
-          Serial.println(" °C");
-          Serial.println("----------------------------");
-          break;
       }
       break;
   }
