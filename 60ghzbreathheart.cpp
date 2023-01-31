@@ -1,7 +1,7 @@
 #include "Arduino.h"
 #include "60ghzbreathheart.h"
 
-BreathHeart_60GHz::Breath_Heart_60GHz(Stream *s)
+BreathHeart_60GHz::BreathHeart_60GHz(Stream *s)
     : stream(s){
   this->newData = false;
 }
@@ -41,14 +41,9 @@ void BreathHeart_60GHz::showData(){
 }
 
 // Judgment of occupied and unoccupied, approach and distance
-void BreathHeart_60GHz::Situation_judgment(){
+void BreathHeart_60GHz::HumanExis_Func(){
   recvRadarBytes();
-  sensor_report = 0x00;
-  bodysign_val = 0x00;
-  distance = 0x00;
-  Dir_x = 0x00;
-  Dir_y = 0x00;
-  Dir_z = 0x00;
+  reset_val();
   if(this->newData){
     switch(Msg[0]){
       case HUMAN_PSE_RADAR:
@@ -58,14 +53,10 @@ void BreathHeart_60GHz::Situation_judgment(){
               case NOONE_HERE:
                 showData(Msg);
                 sensor_report = NOONE;
-                // Serial.println("Radar detects no one.");
-                // Serial.println("----------------------------");
                 break;
               case SOMEONE_HERE:
                 showData(Msg);
                 sensor_report = SOMEONE;
-                // Serial.println("Radar detects somebody.");
-                // Serial.println("----------------------------");
                 break;
             }
             break;
@@ -74,20 +65,14 @@ void BreathHeart_60GHz::Situation_judgment(){
               case PSE_NONE:
                 showData(Msg);
                 sensor_report = NONEPSE;
-                // Serial.println("Radar detects None.");
-                // Serial.println("----------------------------");
                 break;
               case STATIONARY:
                 showData(Msg);
                 sensor_report = STATION;
-                // Serial.println("Radar detects somebody stationary.");
-                // Serial.println("----------------------------");
                 break;
               case MOVEMENT:
                 showData(Msg);
                 sensor_report = MOVE;
-                // Serial.println("Radar detects somebody in motion.");
-                // Serial.println("----------------------------");
                 break;
             }
             break;
@@ -95,20 +80,11 @@ void BreathHeart_60GHz::Situation_judgment(){
             showData(Msg);
             sensor_report = BODYVAL;
             bodysign_val = Msg[4];
-            // Serial.print("The radar identifies the current motion feature value is: ");
-            // Serial.println(Msg[4]);
-            // Serial.println("----------------------------");
             break;
           case DISTANCE:
             showData(Msg);
             sensor_report = DISVAL;
             distance = (Msg[4] << 8 | Msg[5]) / 100.0; // Distance in meters
-            // Serial.print("The distance of the radar from the monitored person is: ");
-            // Serial.print(Msg[4]);
-            // Serial.print(" ");
-            // Serial.print(Msg[5]);
-            // Serial.println(" cm");
-            // Serial.println("----------------------------");
             break;
           case DIRECTIONS:
             showData(Msg);
@@ -116,22 +92,6 @@ void BreathHeart_60GHz::Situation_judgment(){
             Dir_x = Byte2Int(Msg[4], Msg[5]);
             Dir_y = Byte2Int(Msg[6], Msg[7]);
             Dir_z = Byte2Int(Msg[8], Msg[9]);
-            // Serial.print("x: ");
-            // Serial.print(Msg[4]);
-            // Serial.print(" ");
-            // Serial.print(Msg[5]);
-            // Serial.print(" ");
-            // Serial.print("y: ");
-            // Serial.print(Msg[6]);
-            // Serial.println(" ");
-            // Serial.print(Msg[7]);
-            // Serial.println(" ");
-            // Serial.print("z: ");
-            // Serial.print(Msg[8]);
-            // Serial.print(" ");
-            // Serial.print(Msg[9]);
-            // Serial.println();
-            // Serial.println("----------------------------");
             break;
         }
         break;
@@ -142,19 +102,7 @@ void BreathHeart_60GHz::Situation_judgment(){
 //Respiratory and heart rate data analysis
 void BreathHeart_60GHz::Breath_Heart(){
   recvRadarBytes();
-  sensor_report = 0x00;
-  heart_rate = 0x00;
-  heart_point_1 = 0x00;
-  heart_point_2 = 0x00;
-  heart_point_3 = 0x00;
-  heart_point_4 = 0x00;
-  heart_point_5 = 0x00;
-  breath_rate = 0x00;
-  breath_point_1 = 0x00;
-  breath_point_2 = 0x00;
-  breath_point_3 = 0x00;
-  breath_point_4 = 0x00;
-  breath_point_5 = 0x00;
+  reset_val();
   if(this->newData){
     switch(Msg[0]){
       case HEART_INF:
@@ -255,6 +203,7 @@ void BreathHeart_60GHz::Breath_Heart(){
 
 void BreathHeart_60GHz::SleepInf_Decode(){
   recvRadarBytes();
+  reset_val();
   if(this->newData){
     switch(Msg[0]){
       case SLEEP_INF:
@@ -285,32 +234,33 @@ void BreathHeart_60GHz::SleepInf_Decode(){
             switch(Msg[4]){
               case AWAKE:
                 showData(Msg);
-                sensor_report = 
+                sensor_report = SLEEPAWAKE;
                 // Serial.println("The radar detects that the monitoring people is awake.");
                 // Serial.println("----------------------------");
                 break;
               case LIGHT_SLEEP:
                 showData(Msg);
-                sensor_report = 
+                sensor_report = SLEEPLIGHT;
                 // Serial.println("The radar detects that the monitoring people is in light sleeping.");
                 // Serial.println("----------------------------");
                 break;
               case DEEP_SLEEP:
                 showData(Msg);
-                sensor_report = 
+                sensor_report = SLEEPDEEP;
                 // Serial.println("The radar detects that the monitoring people is in deep sleeping.");
                 // Serial.println("----------------------------");
                 break;
               case SLEEP_NONE:
                 showData(Msg);
-                sensor_report = 
+                sensor_report = SLEEPNONE;
                 // Serial.println("The radar detects that the monitoring people nothing.");
                 // Serial.println("----------------------------");
                 break;
             }
           case AWAKE_TIME:
             showData(Msg);
-            sensor_report = 
+            sensor_report = AWAKETIME;
+            awake_time = Msg[4] << 8 | Msg[5];   // Time: minutes
             // Serial.print("Radar monitored the awake sleep time is: ");
             // Serial.print(Msg[4]);
             // Serial.print(" ");
@@ -319,7 +269,8 @@ void BreathHeart_60GHz::SleepInf_Decode(){
             break;
           case LIGHTSLEEP_TIME:
             showData(Msg);
-            sensor_report = 
+            sensor_report = LIGHTTIME;
+            light_time = Msg[4] << 8 | Msg[5];   // Time: minutes
             // Serial.print("Radar monitored the light sleep time is: ");
             // Serial.print(Msg[4]);
             // Serial.print(" ");
@@ -328,7 +279,8 @@ void BreathHeart_60GHz::SleepInf_Decode(){
             break;
           case DEEPSLEEP_TIME:
             showData(Msg);
-            sensor_report = 
+            sensor_report = DEEPTIME;
+            deep_time = Msg[4] << 8 | Msg[5];   // Time: minutes
             // Serial.print("Radar monitored the deep sleep time is: ");
             // Serial.print(Msg[4]);
             // Serial.print(" ");
@@ -337,22 +289,78 @@ void BreathHeart_60GHz::SleepInf_Decode(){
             break;
           case SLEEP_SCORE:
             showData(Msg);
-            sensor_report = 
+            sensor_report = SLEEPSCORE;
+            sleep_score = Msg[4];
             // Serial.print("Radar judgment sleep score is: ");
             // Serial.println(Msg[4]);
             // Serial.println("----------------------------");
             break;
           case SLEEP_STATUE:
             showData(Msg);
-            sensor_report = 
+            sensor_report = SLEEPSTATUE;
+            switch(Msg[4]){
+              case SOMEONE_HERE:
+                existence = true;
+                break;
+              case NOONE_HERE:
+                existence = false;
+                break;
+            }
+            switch(Msg[5]){
+              case DEEP_SLEEP:
+                sleep_status = SLEEPDEEP;
+                break;
+              case LIGHT_SLEEP:
+                sleep_status = SLEEPLIGHT;
+                break;
+              case AWAKE:
+                sleep_status = SLEEPAWAKE;
+                break;
+              case SLEEP_NONE:
+                sleep_status = SLEEPNONE;
+                break;
+            }
+            breath_rate = Msg[6];
+            heart_rate = Msg[7];
+            turn_num = Msg[8];
+            substantial_move_ratio = Msg[9];
+            samll_move_ratio = Msg[10];
+            apnea_num = Msg[11];
             break;
           case SLEEP_QUALITY:
             showData(Msg);
-            sensor_report = 
+            sensor_report = SLEEPQUALITY;
+            sleep_score = Msg[4];
+            sleep_time = Msg[5] << 8 | Msg[6];
+            awake_time_radio = Msg[7];
+            light_time_radio = Msg[8];
+            deep_time_radio = Msg[9];
+            outbed_time = Msg[10];
+            outbed_num = Msg[11];
+            turn_num = Msg[12];
+            breath_rate = Msg[13];
+            heart_rate = Msg[14];
+            apnea_num = Msg[15];
             break;
           case SLEEP_ERROR:
-            showData(Msg);
-            sensor_report = 
+            switch(Msg[4]){
+              case SLEEP_LESS4H:
+                showData(Msg);
+                sensor_report = SLEEPLESS4H;
+                break;
+              case SLEEP_OVER12H:
+                showData(Msg);
+                sensor_report = SLEEPOVER12H;
+                break;
+              case SLEEP_LONGTIMENOONE:
+                showData(Msg);
+                sensor_report = LONGTIMENOONE;
+                break;
+              case SLEEP_ERRORNONE:
+                showData(Msg);
+                sensor_report = ERRORNONE;
+                break;
+            }
             break;
         }
         break;
@@ -407,4 +415,44 @@ void BreathHeart_60GHz::data_printf(const unsigned char* buff, int len){
     Serial.print(' ');
   }
   Serial.println();
+}
+
+//reset the radar values
+void BreathHeart_60GHz::reset_val(){
+  sensor_report = 0x00;
+
+  bodysign_val = 0x00;
+  distance = 0x00;
+  Dir_x = 0x00;
+  Dir_y = 0x00;
+  Dir_z = 0x00;
+
+  heart_rate = 0x00;
+  heart_point_1 = 0x00;
+  heart_point_2 = 0x00;
+  heart_point_3 = 0x00;
+  heart_point_4 = 0x00;
+  heart_point_5 = 0x00;
+  breath_rate = 0x00;
+  breath_point_1 = 0x00;
+  breath_point_2 = 0x00;
+  breath_point_3 = 0x00;
+  breath_point_4 = 0x00;
+  breath_point_5 = 0x00;
+
+  awake_time = 0x00;
+  light_time = 0x00;
+  deep_time = 0x00;
+  sleep_score = 0x00;
+  sleep_status = 0x00;
+  turn_num = 0x00;
+  substantial_move_ratio = 0x00;
+  samll_move_ratio = 0x00;
+  apnea_num = 0x00;
+  sleep_time = 0x00;
+  awake_time_radio = 0x00;
+  light_time_radio = 0x00;
+  deep_time_radio = 0x00;
+  outbed_time = 0x00;
+  outbed_num = 0x00;
 }
