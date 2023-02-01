@@ -62,6 +62,7 @@ void loop()
         Serial.print(radar.distance, DEC);
         Serial.println(" m");
         Serial.println("----------------------------");
+        break;
       case DIREVAL:
         Serial.print("The sensor judges the orientation data with the human body as -- x: ");
         Serial.print(radar.Dir_x);
@@ -69,8 +70,9 @@ void loop()
         Serial.print(radar.Dir_y);
         Serial.print(" cm, z: ");
         Serial.print(radar.Dir_z);
-        Serial.print(" cm");
+        Serial.println(" cm");
         Serial.println("----------------------------");
+        break;
     }
   }
   delay(200);                       //Add time delay to avoid program jam

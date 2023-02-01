@@ -14,7 +14,7 @@
 #define NOONE_HERE 0x00         //Noone here
 
 #define MOVE_INF 0x02           //Campaign Information
-#define PSE_NONE 0x00               //None
+#define PSE_NONE 0x00           //None
 #define STATIONARY 0x01         //A person is stationary
 #define MOVEMENT 0x02           //A person in motion
 
@@ -72,7 +72,11 @@
 #define SLEEP_LESS4H 0x00        //Sleep less than 4 hours
 #define SLEEP_OVER12H 0x01       //Sleep over 12 hours
 #define SLEEP_LONGTIMENOONE 0x02 //Unusual situation, no one for a long time
-#define SLEEP_ERRORNONE 0x03          //None
+#define SLEEP_ERRORNONE 0x03     //None
+
+#define reset_frame_len 10      //Reset data frame length
+//Reset data frame
+const unsigned char reset_frame[10] = {0x53, 0x59, 0x01, 0x02, 0x00, 0x01, 0x0F, 0xBF, 0x54, 0x43};
 
 //Return status, Use in arduino
 #define NOONE 0x01

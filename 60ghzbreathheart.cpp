@@ -111,9 +111,6 @@ void BreathHeart_60GHz::Breath_Heart(){
             showData(Msg);
             sensor_report = HEARTRATEVAL;
             heart_rate = Msg[4];
-            // Serial.print("Radar monitored the current heart rate value is ");
-            // Serial.println(Msg[4]);
-            // Serial.println("----------------------------");
             break;
           case HEART_RATE_WAVE:
             showData(Msg);
@@ -123,17 +120,6 @@ void BreathHeart_60GHz::Breath_Heart(){
             heart_point_3 = Msg[6];
             heart_point_4 = Msg[7];
             heart_point_5 = Msg[8];
-            // Serial.print("The heart rate waveform: ");
-            // Serial.print(Msg[4]);
-            // Serial.print(" ");
-            // Serial.print(Msg[5]);
-            // Serial.print(" ");
-            // Serial.print(Msg[6]);
-            // Serial.print(" ");
-            // Serial.print(Msg[7]);
-            // Serial.print(" ");
-            // Serial.println(Msg[8]);
-            // Serial.println("----------------------------");
             break;
         }
         break;
@@ -144,26 +130,18 @@ void BreathHeart_60GHz::Breath_Heart(){
               case BREATH_NORMAL:
                 showData(Msg);
                 sensor_report = BREATHNOR;
-                // Serial.println("Radar detects that the current breath rate is normal.");
-                // Serial.println("----------------------------");
                 break;
               case BREATH_RAPID:
                 showData(Msg);
                 sensor_report = BREATHRAPID;
-                // Serial.println("Radar detects current breath rate is too fast");
-                // Serial.println("----------------------------");
                 break;
               case BREATH_SLOW:
                 showData(Msg);
                 sensor_report = BREATHSLOW;
-                // Serial.println("Radar detects current breath rate is too slow");
-                // Serial.println("----------------------------");
                 break;
               case BREATH_NONE:
                 showData(Msg);
                 sensor_report = BREATHNONE;
-                // Serial.println("None");
-                // Serial.println("----------------------------");
                 break;
             }
             break;
@@ -171,9 +149,6 @@ void BreathHeart_60GHz::Breath_Heart(){
             showData(Msg);
             sensor_report = BREATHVAL;
             breath_rate = Msg[4];
-            // Serial.print("Radar monitored the current breath rate value is ");
-            // Serial.println(Msg[4]);
-            // Serial.println("----------------------------");
             break;
           case BREATH_WAVE:
             showData(Msg);
@@ -183,17 +158,6 @@ void BreathHeart_60GHz::Breath_Heart(){
             breath_point_3 = Msg[6];
             breath_point_4 = Msg[7];
             breath_point_5 = Msg[8];
-            // Serial.print("The breath rate waveform: ");
-            // Serial.print(Msg[4]);
-            // Serial.print(" ");
-            // Serial.print(Msg[5]);
-            // Serial.print(" ");
-            // Serial.print(Msg[6]);
-            // Serial.print(" ");
-            // Serial.print(Msg[7]);
-            // Serial.print(" ");
-            // Serial.println(Msg[8]);
-            // Serial.println("----------------------------");
             break;
         }
         break;
@@ -213,20 +177,14 @@ void BreathHeart_60GHz::SleepInf_Decode(){
               case OUT_BED:
                 showData(Msg);
                 sensor_report = OUTBED;
-                // Serial.println("Radar detects someone currently leaving the bed.");
-                // Serial.println("----------------------------");
                 break;
               case IN_BED:
                 showData(Msg);
                 sensor_report = INBED;
-                // Serial.println("Radar detects that someone is currently in bed.");
-                // Serial.println("----------------------------");
                 break;
               case INOUT_NONE:
                 showData(Msg);
                 sensor_report = NOINOUT;
-                // Serial.println("NONE.");
-                // Serial.println("----------------------------");
                 break;
             }
             break;
@@ -235,65 +193,39 @@ void BreathHeart_60GHz::SleepInf_Decode(){
               case AWAKE:
                 showData(Msg);
                 sensor_report = SLEEPAWAKE;
-                // Serial.println("The radar detects that the monitoring people is awake.");
-                // Serial.println("----------------------------");
                 break;
               case LIGHT_SLEEP:
                 showData(Msg);
                 sensor_report = SLEEPLIGHT;
-                // Serial.println("The radar detects that the monitoring people is in light sleeping.");
-                // Serial.println("----------------------------");
                 break;
               case DEEP_SLEEP:
                 showData(Msg);
                 sensor_report = SLEEPDEEP;
-                // Serial.println("The radar detects that the monitoring people is in deep sleeping.");
-                // Serial.println("----------------------------");
                 break;
               case SLEEP_NONE:
                 showData(Msg);
                 sensor_report = SLEEPNONE;
-                // Serial.println("The radar detects that the monitoring people nothing.");
-                // Serial.println("----------------------------");
                 break;
             }
           case AWAKE_TIME:
             showData(Msg);
             sensor_report = AWAKETIME;
             awake_time = Msg[4] << 8 | Msg[5];   // Time: minutes
-            // Serial.print("Radar monitored the awake sleep time is: ");
-            // Serial.print(Msg[4]);
-            // Serial.print(" ");
-            // Serial.println(Msg[5]);
-            // Serial.println("----------------------------");
             break;
           case LIGHTSLEEP_TIME:
             showData(Msg);
             sensor_report = LIGHTTIME;
             light_time = Msg[4] << 8 | Msg[5];   // Time: minutes
-            // Serial.print("Radar monitored the light sleep time is: ");
-            // Serial.print(Msg[4]);
-            // Serial.print(" ");
-            // Serial.println(Msg[5]);
-            // Serial.println("----------------------------");
             break;
           case DEEPSLEEP_TIME:
             showData(Msg);
             sensor_report = DEEPTIME;
             deep_time = Msg[4] << 8 | Msg[5];   // Time: minutes
-            // Serial.print("Radar monitored the deep sleep time is: ");
-            // Serial.print(Msg[4]);
-            // Serial.print(" ");
-            // Serial.println(Msg[5]);
-            // Serial.println("----------------------------");
             break;
           case SLEEP_SCORE:
             showData(Msg);
             sensor_report = SLEEPSCORE;
             sleep_score = Msg[4];
-            // Serial.print("Radar judgment sleep score is: ");
-            // Serial.println(Msg[4]);
-            // Serial.println("----------------------------");
             break;
           case SLEEP_STATUE:
             showData(Msg);
