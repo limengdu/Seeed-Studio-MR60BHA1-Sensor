@@ -66,11 +66,11 @@ void loop()
       case DIREVAL:
         Serial.print("The sensor judges the orientation data with the human body as -- x: ");
         Serial.print(radar.Dir_x);
-        Serial.print(" cm, y: ");
+        Serial.print(" m, y: ");
         Serial.print(radar.Dir_y);
-        Serial.print(" cm, z: ");
+        Serial.print(" m, z: ");
         Serial.print(radar.Dir_z);
-        Serial.println(" cm");
+        Serial.println(" m");
         Serial.println("----------------------------");
         break;
     }

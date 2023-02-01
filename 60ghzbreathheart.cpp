@@ -51,11 +51,11 @@ void BreathHeart_60GHz::HumanExis_Func(){
           case PRESENCE_INF:
             switch(Msg[4]){
               case NOONE_HERE:
-                showData(Msg);
+                showData();
                 sensor_report = NOONE;
                 break;
               case SOMEONE_HERE:
-                showData(Msg);
+                showData();
                 sensor_report = SOMEONE;
                 break;
             }
@@ -63,31 +63,31 @@ void BreathHeart_60GHz::HumanExis_Func(){
           case MOVE_INF:
             switch(Msg[4]){
               case PSE_NONE:
-                showData(Msg);
+                showData();
                 sensor_report = NONEPSE;
                 break;
               case STATIONARY:
-                showData(Msg);
+                showData();
                 sensor_report = STATION;
                 break;
               case MOVEMENT:
-                showData(Msg);
+                showData();
                 sensor_report = MOVE;
                 break;
             }
             break;
           case BODY_SIG:
-            showData(Msg);
+            showData();
             sensor_report = BODYVAL;
             bodysign_val = Msg[4];
             break;
           case DISTANCE:
-            showData(Msg);
+            showData();
             sensor_report = DISVAL;
             distance = (Msg[4] << 8 | Msg[5]) / 100.0; // Distance in meters
             break;
           case DIRECTIONS:
-            showData(Msg);
+            showData();
             sensor_report = DIREVAL;
             Dir_x = Byte2Int(Msg[4], Msg[5]);
             Dir_y = Byte2Int(Msg[6], Msg[7]);
@@ -108,12 +108,12 @@ void BreathHeart_60GHz::Breath_Heart(){
       case HEART_INF:
         switch(Msg[1]){
           case HEART_RATE:
-            showData(Msg);
+            showData();
             sensor_report = HEARTRATEVAL;
             heart_rate = Msg[4];
             break;
           case HEART_RATE_WAVE:
-            showData(Msg);
+            showData();
             sensor_report = HEARTRATEWAVE;
             heart_point_1 = Msg[4];
             heart_point_2 = Msg[5];
@@ -128,30 +128,30 @@ void BreathHeart_60GHz::Breath_Heart(){
           case BREATH_INF:
             switch(Msg[4]){
               case BREATH_NORMAL:
-                showData(Msg);
+                showData();
                 sensor_report = BREATHNOR;
                 break;
               case BREATH_RAPID:
-                showData(Msg);
+                showData();
                 sensor_report = BREATHRAPID;
                 break;
               case BREATH_SLOW:
-                showData(Msg);
+                showData();
                 sensor_report = BREATHSLOW;
                 break;
               case BREATH_NONE:
-                showData(Msg);
+                showData();
                 sensor_report = BREATHNONE;
                 break;
             }
             break;
           case BREATH_VAL:
-            showData(Msg);
+            showData();
             sensor_report = BREATHVAL;
             breath_rate = Msg[4];
             break;
           case BREATH_WAVE:
-            showData(Msg);
+            showData();
             sensor_report = BREATHWAVE;
             breath_point_1 = Msg[4];
             breath_point_2 = Msg[5];
@@ -175,15 +175,15 @@ void BreathHeart_60GHz::SleepInf_Decode(){
           case INOUT_BED:
             switch(Msg[4]){
               case OUT_BED:
-                showData(Msg);
+                showData();
                 sensor_report = OUTBED;
                 break;
               case IN_BED:
-                showData(Msg);
+                showData();
                 sensor_report = INBED;
                 break;
               case INOUT_NONE:
-                showData(Msg);
+                showData();
                 sensor_report = NOINOUT;
                 break;
             }
@@ -191,44 +191,44 @@ void BreathHeart_60GHz::SleepInf_Decode(){
           case SLEEP_STATE:
             switch(Msg[4]){
               case AWAKE:
-                showData(Msg);
+                showData();
                 sensor_report = SLEEPAWAKE;
                 break;
               case LIGHT_SLEEP:
-                showData(Msg);
+                showData();
                 sensor_report = SLEEPLIGHT;
                 break;
               case DEEP_SLEEP:
-                showData(Msg);
+                showData();
                 sensor_report = SLEEPDEEP;
                 break;
               case SLEEP_NONE:
-                showData(Msg);
+                showData();
                 sensor_report = SLEEPNONE;
                 break;
             }
           case AWAKE_TIME:
-            showData(Msg);
+            showData();
             sensor_report = AWAKETIME;
             awake_time = Msg[4] << 8 | Msg[5];   // Time: minutes
             break;
           case LIGHTSLEEP_TIME:
-            showData(Msg);
+            showData();
             sensor_report = LIGHTTIME;
             light_time = Msg[4] << 8 | Msg[5];   // Time: minutes
             break;
           case DEEPSLEEP_TIME:
-            showData(Msg);
+            showData();
             sensor_report = DEEPTIME;
             deep_time = Msg[4] << 8 | Msg[5];   // Time: minutes
             break;
           case SLEEP_SCORE:
-            showData(Msg);
+            showData();
             sensor_report = SLEEPSCORE;
             sleep_score = Msg[4];
             break;
           case SLEEP_STATUE:
-            showData(Msg);
+            showData();
             sensor_report = SLEEPSTATUE;
             switch(Msg[4]){
               case SOMEONE_HERE:
@@ -260,7 +260,7 @@ void BreathHeart_60GHz::SleepInf_Decode(){
             apnea_num = Msg[11];
             break;
           case SLEEP_QUALITY:
-            showData(Msg);
+            showData();
             sensor_report = SLEEPQUALITY;
             sleep_score = Msg[4];
             sleep_time = Msg[5] << 8 | Msg[6];
@@ -277,19 +277,19 @@ void BreathHeart_60GHz::SleepInf_Decode(){
           case SLEEP_ERROR:
             switch(Msg[4]){
               case SLEEP_LESS4H:
-                showData(Msg);
+                showData();
                 sensor_report = SLEEPLESS4H;
                 break;
               case SLEEP_OVER12H:
-                showData(Msg);
+                showData();
                 sensor_report = SLEEPOVER12H;
                 break;
               case SLEEP_LONGTIMENOONE:
-                showData(Msg);
+                showData();
                 sensor_report = LONGTIMENOONE;
                 break;
               case SLEEP_ERRORNONE:
-                showData(Msg);
+                showData();
                 sensor_report = ERRORNONE;
                 break;
             }
@@ -322,6 +322,21 @@ void BreathHeart_60GHz::send_func(const unsigned char* buff, int len, bool cycli
     this->newData = false;
   }
   count++;
+}
+
+//Transfer mode selection
+void BreathHeart_60GHz::ModeSelect_fuc(int mode){
+  if (mode == 1){
+    stream->write(realtime_mode_frame, mode_frame_len);
+    stream->flush();
+    Serial.println("Real-time data transfer mode ON!");
+  }
+  else if (mode == 2){
+    stream->write(sleepstatus_mode_frame, mode_frame_len);
+    stream->flush();
+    Serial.println("Sleep state transfer mode ON!");
+  }
+  else Serial.println("Input error, please reselect the mode - 1: indicates real-time transmission mode, 2: indicates sleep state mode.");
 }
 
 //Reset radar

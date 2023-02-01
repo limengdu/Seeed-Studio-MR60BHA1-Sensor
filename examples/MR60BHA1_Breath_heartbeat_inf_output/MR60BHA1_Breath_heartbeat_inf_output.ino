@@ -24,12 +24,15 @@ void setup() {
   while(!Serial);   //When the serial port is opened, the program starts to execute.
 
   Serial.println("Readly");
+
+  // radar.ModeSelect_fuc(1);  //1: indicates real-time transmission mode, 2: indicates sleep state mode.
+  //After setting the mode, if you do not see data returned, you may need to re-power the sensor.
 }
 
 void loop()
 {
   // put your main code here, to run repeatedly:
-  radar.Breath_Heart();           //Human existence information output
+  radar.Breath_Heart();           //Breath and heartbeat information output
   if(radar.sensor_report != 0x00){
     switch(radar.sensor_report){
       case HEARTRATEVAL:
@@ -37,7 +40,7 @@ void loop()
         Serial.println(radar.heart_rate, DEC);
         Serial.println("----------------------------");
         break;
-      case HEARTRATEWAVE:
+      case HEARTRATEWAVE:  //Valid only when real-time data transfer mode is on
         Serial.print("The heart rate waveform(Sine wave) -- point 1: ");
         Serial.print(radar.heart_point_1);
         Serial.print(", point 2 : ");
@@ -71,7 +74,7 @@ void loop()
         Serial.println(radar.breath_rate, DEC);
         Serial.println("----------------------------");
         break;
-      case BREATHWAVE:
+      case BREATHWAVE:  //Valid only when real-time data transfer mode is on
         Serial.print("The breath rate waveform(Sine wave) -- point 1: ");
         Serial.print(radar.breath_point_1);
         Serial.print(", point 2 : ");

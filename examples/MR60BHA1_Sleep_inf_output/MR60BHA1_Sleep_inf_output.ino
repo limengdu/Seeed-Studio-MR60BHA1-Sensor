@@ -29,7 +29,7 @@ void setup() {
 void loop()
 {
   // put your main code here, to run repeatedly:
-  radar.SleepInf_Decode();           //Sleep-related information output
+  radar.SleepInf_Decode();           //Sleep-related information output. Data output begins when the monitoring figure is in bed for five minutes.
   if(radar.sensor_report != 0x00){
     switch(radar.sensor_report){
       case OUTBED:
@@ -85,7 +85,7 @@ void loop()
         break;
       case SLEEPSTATUE:
         Serial.println("Sleep integrated state information -- ");
-        Serial.print("Human existence: ")
+        Serial.print("Human existence: ");
         if(radar.existence)Serial.println("human exis");
         else Serial.println("human non-existent");
         Serial.print("Sleep state: ");

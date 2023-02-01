@@ -78,6 +78,10 @@
 //Reset data frame
 const unsigned char reset_frame[10] = {0x53, 0x59, 0x01, 0x02, 0x00, 0x01, 0x0F, 0xBF, 0x54, 0x43};
 
+#define mode_frame_len 10
+const unsigned char realtime_mode_frame[10] = {0x53, 0x59, 0x84, 0x0F, 0x00, 0x01, 0x00, 0x40, 0x54, 0x43};
+const unsigned char sleepstatus_mode_frame[10] = {0x53, 0x59, 0x84, 0x0F, 0x00, 0x01, 0x01, 0x41, 0x54, 0x43};
+
 //Return status, Use in arduino
 #define NOONE 0x01
 #define SOMEONE 0x02
@@ -133,7 +137,7 @@ class BreathHeart_60GHz{
         unsigned int substantial_move_ratio = 0, samll_move_ratio = 0, apnea_num = 0, sleep_status = 0, sleep_time = 0;
         unsigned int awake_time_radio = 0, light_time_radio = 0, deep_time_radio = 0;
         unsigned int outbed_time = 0, outbed_num = 0;
-        unsigned float distance = 0;
+        float distance = 0;
         float Dir_x = 0, Dir_y = 0, Dir_z = 0;
         boolean existence;
         BreathHeart_60GHz(Stream *s);
@@ -144,6 +148,7 @@ class BreathHeart_60GHz{
         void SleepInf_Decode();
         void send_func(const unsigned char* buff, int len, bool cyclic = false);
         void reset_func();
+        void ModeSelect_fuc(int mode);
 };
 
 #endif
