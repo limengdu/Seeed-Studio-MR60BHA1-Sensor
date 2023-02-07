@@ -207,6 +207,7 @@ void BreathHeart_60GHz::SleepInf_Decode(){
                 sensor_report = SLEEPNONE;
                 break;
             }
+            break;
           case AWAKE_TIME:
             showData();
             sensor_report = AWAKETIME;
