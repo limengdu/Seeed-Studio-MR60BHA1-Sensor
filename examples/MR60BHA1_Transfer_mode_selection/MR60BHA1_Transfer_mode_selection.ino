@@ -25,7 +25,7 @@ void setup() {
 
   while(!Serial);   //When the serial port is opened, the program starts to execute.
 
-  Serial.println("Readly");
+  Serial.println("Ready");
 
   radar.ModeSelect_fuc(1);  //1: indicates real-time transmission mode, 2: indicates sleep state mode.
   //After setting the mode, if you do not see data returned, you may need to re-power the sensor.

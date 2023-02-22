@@ -25,7 +25,7 @@ void setup() {
 
   while(!Serial);   //When the serial port is opened, the program starts to execute.
 
-  Serial.println("Readly");
+  Serial.println("Ready");
 }
 
 void loop()
