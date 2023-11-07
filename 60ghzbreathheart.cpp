@@ -342,7 +342,7 @@ void BreathHeart_60GHz::ModeSelect_fuc(int mode){
 
 //Reset radar
 void BreathHeart_60GHz::reset_func(){
-  stream->write(reset_frame, reset_frame_len);
+  stream->write(breath_reset_frame, reset_frame_len);
   stream->flush();
   Serial.println("Radar reset!");
 }
