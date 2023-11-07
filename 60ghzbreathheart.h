@@ -1,5 +1,5 @@
-#ifndef _RADAR_H__
-#define _RADAR_H__
+#ifndef _60GHZBREATHHEART_H__
+#define _60GHZBREATHHEART_H__
 
 #define MESSAGE_HEAD1 0x53      //Data frame header1
 #define MESSAGE_HEAD2 0x59      //Data frame header2
